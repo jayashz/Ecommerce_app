@@ -4,6 +4,7 @@ import 'package:ecommerce_app/common/custom_theme.dart';
 import 'package:ecommerce_app/common/textfield/custom_textfield.dart';
 import 'package:ecommerce_app/features/auth/cubit/login_cubit.dart';
 import 'package:ecommerce_app/features/auth/ui/screens/signup_page.dart';
+import 'package:ecommerce_app/features/dashboard/ui/screens/dashboard_screens.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,16 @@ class _LoginWidgetsState extends State<LoginWidgets> {
           }
           if (state is CommonErrorState) {
             Fluttertoast.showToast(msg: state.message);
-          } else if (state is CommonSuccessState) {}
+          } else if (state is CommonSuccessState) {
+            Fluttertoast.showToast(msg: "User log in succesful!");
+            Navigator.of(context).pushAndRemoveUntil(
+              PageTransition(
+                child: DashboardScreens(),
+                type: PageTransitionType.fade,
+              ),
+              (route) => false,
+            );
+          }
         },
         child: SingleChildScrollView(
           child: Container(
@@ -85,14 +95,6 @@ class _LoginWidgetsState extends State<LoginWidgets> {
                   CustomRoundedButtom(
                     title: "LOGIN",
                     onPressed: () {
-                      // Navigator.of(context).pushAndRemoveUntil(
-                      //   PageTransition(
-                      //     child: DashboardScreens(),
-                      //     type: PageTransitionType.fade,
-                      //   ),
-                      //   (route) => false,
-                      // );
-
                       if (_formKey.currentState!.saveAndValidate()) {
                         context.read<LoginCubit>().login(
                             email: _formKey.currentState!.value["email"],
