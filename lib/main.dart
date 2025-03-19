@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/common/custom_theme.dart';
 import 'package:ecommerce_app/features/auth/repository/user_repository.dart';
+import 'package:ecommerce_app/features/homepage/repository/product_repository.dart';
 import 'package:ecommerce_app/features/splash/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,8 +16,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => UserRepository(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => UserRepository(),
+        ),
+        RepositoryProvider(
+          create: (context) =>
+              ProducRepository(userRepository: context.read<UserRepository>()),
+        ),
+      ],
       child: GlobalLoaderOverlay(
         child: MaterialApp(
           title: 'Ecommerce',
