@@ -1,9 +1,9 @@
-import 'package:ecommerce_app/common/assets.dart';
 import 'package:ecommerce_app/common/bloc/common_state.dart';
 import 'package:ecommerce_app/common/buttons/custom_rounded_button.dart';
 import 'package:ecommerce_app/common/custom_theme.dart';
 import 'package:ecommerce_app/features/homepage/cubit/fetch_product_details_cubit.dart';
 import 'package:ecommerce_app/features/homepage/model/product.dart';
+import 'package:ecommerce_app/features/homepage/ui/widgets/product_details_shimmer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -117,7 +117,7 @@ class ProductDetailsWidgets extends StatelessWidget {
               child: Text(state.message),
             );
           } else {
-            return Center(child: CupertinoActivityIndicator());
+            return ProductDetailsShimmer();
           }
         },
       ),
