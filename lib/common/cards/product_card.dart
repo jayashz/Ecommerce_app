@@ -1,5 +1,3 @@
-import 'package:dartz/dartz.dart';
-import 'package:ecommerce_app/common/assets.dart';
 import 'package:ecommerce_app/common/custom_network_image.dart';
 import 'package:ecommerce_app/common/custom_theme.dart';
 import 'package:ecommerce_app/features/homepage/model/product.dart';

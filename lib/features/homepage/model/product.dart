@@ -6,15 +6,17 @@ class Product {
   final String brand;
   final num price;
   final List<String> catagories;
-
-  Product(
-      {required this.id,
-      required this.name,
-      required this.image,
-      required this.brand,
-      required this.price,
-      required this.catagories,
-      required this.description});
+  final bool addedToCart;
+  Product({
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.brand,
+    required this.price,
+    required this.catagories,
+    required this.description,
+    required this.addedToCart,
+  });
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["_id"],
         name: json["name"] ?? "",
@@ -22,6 +24,7 @@ class Product {
         brand: json["brand"] ?? "",
         description: json["description"] ?? "",
         price: json["price"],
+        addedToCart: json["added_in_cart"] ?? false,
         catagories:
             List.from(json["catagories"]).map((x) => x.toString()).toList(),
       );
@@ -34,5 +37,6 @@ class Product {
         "description": description,
         "price": price,
         "catagories": catagories,
+        "added_in_cart": addedToCart
       };
 }
