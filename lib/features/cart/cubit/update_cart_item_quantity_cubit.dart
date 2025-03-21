@@ -3,22 +3,19 @@ import 'package:ecommerce_app/features/cart/model/cart.dart';
 import 'package:ecommerce_app/features/cart/repository/cart_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FetchCartItemsCubit extends Cubit<CommonState> {
+class UpdateCartItemQuantityCubit extends Cubit<CommonState> {
   final CartRepository cartRepository;
-  FetchCartItemsCubit({required this.cartRepository})
+  UpdateCartItemQuantityCubit({required this.cartRepository})
       : super(CommonIntialState());
 
-  fetchProducts() async {
+  updateCartItemquantity(
+      {required String CartId, required int quantity}) async {
     emit(CommonLoadingState());
-    final res = await cartRepository.fetchCartItems();
+    final res = await cartRepository.updateCartItemQuantity(
+        CartItemId: CartId, quantity: quantity);
     res.fold(
       (err) => emit(CommonErrorState(message: err)),
-      (data) => emit(CommonSuccessState<List<Cart>>(data: data)),
+      (data) => emit(CommonSuccessState<Cart>(data: data)),
     );
-  }
-
-  updatItems() async {
-    emit(CommonLoadingState());
-    emit(CommonSuccessState<List<Cart>>(data: cartRepository.cartItems));
   }
 }

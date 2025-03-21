@@ -9,6 +9,10 @@ class CartRepository {
   CartRepository({required this.userRepository});
   final Dio _dio = Dio();
 
+  List<Cart> _cartItems = [];
+
+  List<Cart> get cartItems => _cartItems;
+
   Future<Either<String, List<Cart>>> fetchCartItems() async {
     try {
       final response = await _dio.get(
@@ -20,12 +24,39 @@ class CartRepository {
       final _tempCart = List.from(response.data["results"])
           .map((e) => Cart.fromMap(e))
           .toList();
+      _cartItems.clear;
+      _cartItems.addAll(_tempCart);
       return Right(_tempCart);
     } on DioException catch (e) {
       return Left(e.response?.data["message"] ?? "Unable to fetch products!");
     } catch (e) {
       print(e);
       return Left("Unable to fetch the products!");
+    }
+  }
+
+  Future<Either<String, Cart>> updateCartItemQuantity(
+      {required String CartItemId, required int quantity}) async {
+    try {
+      final res = await _dio.put(
+        "${Constants.baseUrl}/cart/$CartItemId",
+        data: {"quantity": quantity},
+        options: Options(headers: {
+          "Authorization": "Bearer ${userRepository.token}",
+        }),
+      );
+      final cartItem = Cart.fromMap(res.data["results"]);
+      final index = _cartItems.indexWhere((e) => e.id == cartItem.id);
+      if (index != -1) {
+        _cartItems[index] = cartItem;
+      }
+      return Right(cartItem);
+    } on DioException catch (e) {
+      return Left(e.response?.data["message"] ??
+          "Unable to add cart quantity in the cart");
+    } catch (e) {
+      print(e);
+      return Left("Unable to add the cart quantity in the cart");
     }
   }
 }

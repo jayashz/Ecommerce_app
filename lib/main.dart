@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: GlobalLoaderOverlay(
+        
         child: MaterialApp(
           title: 'Ecommerce',
           theme: ThemeData(
