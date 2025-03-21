@@ -1,17 +1,23 @@
-import 'package:ecommerce_app/common/assets.dart';
 import 'package:ecommerce_app/common/custom_theme.dart';
+import 'package:ecommerce_app/features/cart/model/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CartCard extends StatefulWidget {
-  const CartCard({super.key});
-
+  final Cart item;
+  const CartCard({super.key, required this.item});
   @override
   State<CartCard> createState() => _CartCardState();
 }
 
 class _CartCardState extends State<CartCard> {
   int _quantity = 1;
+  @override
+  void initState() {
+    _quantity = widget.item.quantity;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,82 +46,88 @@ class _CartCardState extends State<CartCard> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    Assets.productImge,
+                    widget.item.product.image,
                     width: 70,
                     height: 70,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 0, top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(
-                      "Iphone 14 Pro Max",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 0, top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(
+                        widget.item.product.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      "Rs. 2,00,000",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
+                      SizedBox(height: 4),
+                      Text(
+                        "Rs. ${widget.item.product.price}",
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              const Spacer(),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  children: [
-                    IconButton(
-                      splashRadius: 10.0,
-                      onPressed: () {
-                        if (_quantity > 1) {
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Container(
+                  height: 70,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        splashRadius: 10.0,
+                        onPressed: () {
+                          if (_quantity > 1) {
+                            setState(() {
+                              _quantity--;
+                            });
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.remove,
+                          size: 16,
+                          color: CustomTheme.primaryColor,
+                        ),
+                      ),
+                      Text(
+                        '${_quantity}',
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      IconButton(
+                        splashRadius: 10.0,
+                        onPressed: () {
                           setState(() {
-                            _quantity--;
+                            _quantity++;
                           });
-                        }
-                      },
-                      icon: const Icon(
-                        Icons.remove,
-                        size: 16,
-                        color: CustomTheme.primaryColor,
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                          size: 16,
+                          color: CustomTheme.primaryColor,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '${_quantity}',
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    IconButton(
-                      splashRadius: 10.0,
-                      onPressed: () {
-                        setState(() {
-                          _quantity++;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        size: 16,
-                        color: CustomTheme.primaryColor,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],

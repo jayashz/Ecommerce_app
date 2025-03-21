@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/common/custom_theme.dart';
 import 'package:ecommerce_app/features/auth/repository/user_repository.dart';
+import 'package:ecommerce_app/features/cart/repository/cart_repository.dart';
 import 'package:ecommerce_app/features/homepage/repository/product_repository.dart';
 import 'package:ecommerce_app/features/splash/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,10 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) =>
               ProducRepository(userRepository: context.read<UserRepository>()),
+        ),
+        RepositoryProvider(
+          create: (context) =>
+              CartRepository(userRepository: context.read<UserRepository>()),
         ),
       ],
       child: GlobalLoaderOverlay(
