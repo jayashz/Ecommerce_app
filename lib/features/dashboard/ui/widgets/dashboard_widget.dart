@@ -33,6 +33,7 @@ class _DashboardWidgetsState extends State<DashboardWidgets> {
             fontSize: 16,
           ),
         ),
+        leading: SizedBox(),
         actions: [
           IconButton(
             onPressed: () {

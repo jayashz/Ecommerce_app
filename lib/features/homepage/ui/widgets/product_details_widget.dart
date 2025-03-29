@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:page_transition/page_transition.dart';
 
 class ProductDetailsWidgets extends StatelessWidget {
   final productId;

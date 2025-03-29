@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce_app/common/constants.dart';
 import 'package:ecommerce_app/features/auth/repository/user_repository.dart';
 import 'package:ecommerce_app/features/cart/model/cart.dart';
+import 'package:ecommerce_app/features/cart/model/order_params.dart';
 
 class CartRepository {
   final UserRepository userRepository;
@@ -57,6 +58,28 @@ class CartRepository {
     } catch (e) {
       print(e);
       return Left("Unable to add the cart quantity in the cart");
+    }
+  }
+
+  Future<Either<String, Cart>> initiateOrder(
+      {required OrderParams params}) async {
+    try {
+      final res = await _dio.post(
+        "${Constants.baseUrl}/orders",
+        data: params.toMap(),
+        options: Options(headers: {
+          "Authorization": "Bearer ${userRepository.token}",
+        }),
+      );
+      final orderId = res.data["results"]["_id"];
+
+      return Right(orderId);
+    } on DioException catch (e) {
+      return Left(
+          e.response?.data["message"] ?? "Unable to initiate the order");
+    } catch (e) {
+      print(e);
+      return Left("Unable to initiate the order");
     }
   }
 }
